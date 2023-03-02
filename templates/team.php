@@ -1,19 +1,13 @@
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include 'head.php' ?>
     <title>Equipe</title>
-    <!-- Importation de Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-gray-100">
     <header class="w-screen h-screen overflow-hidden relative">
       <img src="/static/assets/img/SDP/Crea SDP site paysage.png" class="absolute inset--0 w-full h-full">
       <nav class="bg-gray-300/50 sticky top-4 shadow-md">
-        <ul class="w-full p-4 font-medium text-blue-600 flex justify-end uppercase text-sm items-center space-x-3">
-          <li class="hover:text-blue-900"><a href="/">Accueil</a></li>
-          <li class="hover:text-blue-900"><a href="/disconnect">Deconnexion</a></li>
-        </ul>
+        <?php include 'header.php' ?>
       </nav>
     </header>
     <form class="" action="" method="POST">
@@ -150,7 +144,7 @@
                 <div class="mt-2 space-y-2 text-gray-700">
                   <div>
                     <label class="inline-flex items-center">
-                      <input type="radio" class="form-radio" name="niveau_projet" value="idee_projet">
+                      <input type="radio" class="form-radio" name="niveau_projet" value="idee de projet">
                       <span class="ml-2">Vous avez juste une idée de projet?</span>
                     </label>
                   </div>
@@ -162,7 +156,7 @@
                   </div>
                   <div>
                     <label class="inline-flex items-center">
-                      <input type="radio" class="form-radio" name="niveau_projet" value="phase_test">
+                      <input type="radio" class="form-radio" name="niveau_projet" value="phase de test">
                       <span class="ml-2">Vous êtes en phase de test?</span>
                     </label>
                   </div>

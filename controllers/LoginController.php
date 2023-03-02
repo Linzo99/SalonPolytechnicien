@@ -8,7 +8,7 @@ class LoginController extends Controller
 {
   protected $view = 'signin.php'; 
 
-  public function dispatch(){
+  public function dispatch($match=NULL){
     if(isset($_SESSION['id']))
       header("location: /");
     else
@@ -61,6 +61,7 @@ class LoginController extends Controller
         $_SESSION["loggedin"] = true;
         $_SESSION["id"] = $res['id'];
         $_SESSION["email"] = $res["username"];
+        $_SESSION["admin"] = $res["is_admin"];
         header("location: /team");
       }
       else{

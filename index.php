@@ -3,10 +3,17 @@
 $routes = array(
     '/compte' => 'CompteController@dispatch',
     '/inscription' => 'SignupController@dispatch',
-    '/activate' => 'SignupController@activate',
+    '/activate' => 'CompteController@dispatch',
+    '/reset' => 'CompteController@dispatch',
+    '/reset_account' => 'CompteController@dispatch',
     '/connexion' => 'LoginController@dispatch',
     '/disconnect' => 'LoginController@disconnect',
     '/team' => 'TeamController@dispatch',
+    '/dashboard' => 'AdminController@dispatch',
+    '/projet' => 'AdminController@dispatch',
+    '/validate' => 'AdminController@dispatch',
+    '/resultats' => 'HomeController@resultats',
+    '/' => 'HomeController@dispatch',
 );
 
 $requestPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -30,7 +37,8 @@ if ($controller !== null && $action !== null) {
     call_user_func_array([$controllerInstance, $action], $matches);
 } else {
     // handle 404 error
-    echo "Page Not Found";
+    require_once 'controllers/HomeController.php';
+    call_user_func_array([new HomeController(), 'notFound'], []);
 }
 
 

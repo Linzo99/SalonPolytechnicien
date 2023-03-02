@@ -14,19 +14,33 @@ class TeamController extends Controller
     return array("errors"=>[], "data"=>$_POST);
   }
 
-  public function get(){
-    $this->templateEngine->render($this->view);
-  }
-
-  public function dispatch(){
+  public function dispatch($match=NULL){
     if(!isset($_SESSION['id']))
       header("location: /connexion");
+    else if(isset($_SESSION['admin']) && $_SESSION['admin'])
+      header("location: /dashboard");
     else
       parent::dispatch();
   }
 
+  public function get(){
+    $model = new Projet();
+    $stmt = $model->getByUserId($_SESSION['id']);
+    if($stmt->rowCount()){
+      $id = $stmt->fetch()['id'];
+      $stmt = $model->getById($id);
+      $res = $stmt->fetch();
+      $res['porteurs'] = explode('|', $res['porteurs']);
+      $res['porteurs'] = array_map(fn($str)=>json_decode($str), $res['porteurs']);
+      $this->templateEngine->render('details.php', $res);
+      exit();
+    }
+    $this->templateEngine->render($this->view);
+  }
+
+
   function handleProject($data){
-    $project_fields = ['nom_projet', 'cible', 'problem', 'solution', 'niveau_projet', 'complement', 'nouveau', 'secteur', 'prototype'];
+    $project_fields = ['nom_projet', 'cible', 'problem', 'solution', 'nouveau', 'complement', 'niveau_projet', 'secteur', 'prototype'];
     $project_values = array_filter($data, fn($key)=>in_array($key, $project_fields), ARRAY_FILTER_USE_KEY);
     $project_values['secteur'] = join(';', $project_values['secteur']);
     $project_values = array_values($project_values);
@@ -68,12 +82,12 @@ class TeamController extends Controller
     }
 
     $result = $this->handleMembers($total_members, $data, $result['id']);
-    if(isset(['result']['errors'])){
+    if(isset($result['errors']['db'])){
       $this->templateEngine->render($this->view, $result);
       exit();
     }
     else{
-      header("location: /good");
+      header("location: /team");
     }
   }
 }

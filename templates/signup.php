@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php include 'head.php' ?>
     <title>Inscription</title>
-    <!-- Importation de Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body class="bg-gray-100 w-screen h-screen flex justify-center items-center">
+  <body class="bg-gray-100">
+    <?php include 'header.php' ?>
+    <div class="bg-gray-100 w-screen h-screen flex justify-center items-center">
     <div class="bg-white w-full max-w-md shadow-md rounded-lg overflow-hidden text-blue-500">
       <div class="flex flex-col items-center space-y-2 pt-2">
         <img class= "w-20" src="/static/assets/img/SDP/Logo_UCAD_bleu.png">
         <h1 class="text-3xl font-bold text-center mb-4">Inscription</h1>
+          <?php if(isset($message)){ ?>
+            <p class="text-blue-600 text-xs text-center"><?= $message ?> </p>
+          <?php } ?>
           <?php if(isset($errors['db'])){ ?>
             <p class="text-red-600 text-xs text-center"><?= $errors["db"] ?> </p>
           <?php } ?>
@@ -72,6 +74,7 @@
           </a>
         </div>
       </form>
+    </div>
     </div>
   </body>
 </html>

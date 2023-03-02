@@ -11,7 +11,7 @@ class Controller
     $this->templateEngine = new TemplateEngine();
   }
 
-  public function dispatch()
+  public function dispatch($match=NULL)
   {
     switch($_SERVER['REQUEST_METHOD']){
     case 'GET':
@@ -38,6 +38,14 @@ class Controller
 
   public function validate(){
     return array("errors"=>[], "data"=>[]);
+  }
+
+  public function get(){
+    $this->templateEngine->render($this->view);
+  }
+
+  public function notFound(){
+    $this->templateEngine->render('404.php');
   }
 }
 ?>

@@ -8,6 +8,13 @@ class Compte extends Model
     return $stmt->fetchAll();
   }
 
+  public function getCodeByEmail($email){
+    $stmt = $this->db->prepare('SELECT activation_code FROM comptes WHERE username=:username');
+    $stmt->bindValue(':username', $email);
+    $stmt->execute();
+    return $stmt;
+  }
+
   public function getIdbyCode($code){
     $stmt = $this->db->prepare('SELECT id FROM comptes WHERE activation_code=:code');
     $stmt->bindValue(':code', $code);
@@ -55,7 +62,20 @@ class Compte extends Model
       $stmt->bindValue(':id', $id);
       $stmt->execute();
       return $stmt;
+  }
 
+  public function updatePassword($code, $password){
+      $stmt = $this->db->prepare('UPDATE comptes SET password=:password WHERE activation_code=:code');
+      $stmt->bindValue(':code', $code);
+      $stmt->bindValue(':password', password_hash($password, PASSWORD_BCRYPT));
+      $result = array("errors"=>array("db"=>NULL));
+      try {
+        $stmt->execute();
+      }
+      catch( PDOException $Exception ) {
+        $result["errors"]["db"] = "Erreur lors du changement de mot de passe";
+      }
+      return $result;
   }
 }
 ?>

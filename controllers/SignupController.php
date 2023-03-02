@@ -9,7 +9,7 @@ class SignupController extends Controller
 {
   protected $view = 'signup.php'; 
 
-  public function dispatch(){
+  public function dispatch($match=NULL){
     if(isset($_SESSION['id']))
       header("location: /");
     else
@@ -22,12 +22,12 @@ class SignupController extends Controller
     $emailPattern = '/^[a-zA-Z0-9._%+-]+@esp\.sn$/';
     $passwordMinLength = 6;
     // Validate email
-    if (!preg_match($emailPattern, $data['email'])) {
+    if (!preg_match($emailPattern, $data['email']))
       $errors['email'] = "Ce mail n'est pas valide";
-    }
-    if(strlen($data['password']) < $passwordMinLength){
+    
+    if(strlen($data['password']) < $passwordMinLength)
       $errors['password'] = "Le mot de passe doit contenir au minimum 6 caractères";
-    }
+    
     return array("errors"=>$errors, "data"=>$data);
   }
 
@@ -44,7 +44,7 @@ class SignupController extends Controller
     }
     else{
       sendActivationEmail($data['email'], $result['activation']);
-      header("location: /connexion");
+      $this->templateEngine->render($this->view, ["message"=>"Un mail vous a été envoyer pour activer votre compte"]);
     }
   }
 
